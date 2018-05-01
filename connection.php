@@ -69,7 +69,7 @@ class SingletonDB
 
             return true;
         } catch (\Exception $e) {
-            print("\n\n\n connection  : mysql:host=" . $adresse . " " . $extra_db . " " . $nom . " " . $mdp . " \n\n\n");
+            print("\n<br/>\n<br/>\n<br/> connection  : mysql:host=" . $adresse . " " . $extra_db . " " . $nom . " " . $mdp . " \n<br/>\n<br/>\n<br/>");
 
             return false;
         }
@@ -167,9 +167,9 @@ HEREDOC;
         WHERE  Date >= '{$date}' AND type LIKE '%appel%' AND type  NOT LIKE '%interne%' ;
 HEREDOC;
 
-        print("\n\n\n");
+        print("\n<br/>\n<br/>\n<br/>");
         print_r($requete);
-        print("\n\n\n");
+        print("\n<br/>\n<br/>\n<br/>");
 
         $request = $this->connection->prepare($requete);
 
@@ -184,16 +184,17 @@ HEREDOC;
         global $database;
 
         $requete = <<<HEREDOC
-        SELECT  SUM(Durée_volume_réel)
+        SELECT  SUM(gac_table.Durée_volume_réel)
         FROM {$table}
         INNER JOIN  {$table}  as ng ON   ng.N_abonné = {$table}.N_abonné
-        WHERE Heure > '8:00' and Heure < '18:00'
+        INNER JOIN  {$table}  as ng2 ON   ng2.N_Facture = ng.N_Facture
+        WHERE HOUR(Heure) > 8 and HOUR(Heure) < 18
         ORDER BY gac_table.Durée_volume_réel DESC
         LIMIT 10;
 HEREDOC;
-        print("\n\n\n");
+        print("\n<br/>\n<br/>\n<br/>");
         print_r($requete);
-        print("\n\n\n");
+        print("\n<br/>\n<br/>\n<br/>");
         $request = $this->connection->prepare($requete);
 
         $stmt_resultat = $request->execute();
@@ -207,20 +208,20 @@ HEREDOC;
         global $database;
 
         $requete = <<< HEREDOC
-        SELECT  COUNT(*)
+        SELECT  N_abonné,COUNT(*)
         FROM {$table}
-        INNER JOIN  {$table}  as ng ON   ng.N_abonné = {$table}.N_abonné
-        WHERE type LIKE "%envoi de sms depuis le mobile%";
+        WHERE type LIKE "%envoi de sms depuis le mobile%"
+        GROUP BY N_abonné;
 HEREDOC;
 
-        print("\n\n\n");
+        print("\n<br/>\n<br/>\n<br/>");
         print_r($requete);
-        print("\n\n\n");
+        print("\n<br/>\n<br/>\n<br/>");
 
         $request = $this->connection->prepare($requete);
 
         $stmt_resultat = $request->execute();
-        return $request->fetchAll()[0][0];
+        return $request->fetchAll();
     }
 
     public function close_connection()
