@@ -4,3 +4,4 @@ Bonjour voici la reponse au projet demandé en test :
 - d'abord lancer creer.php
 - puis question.php
 
+3H30
