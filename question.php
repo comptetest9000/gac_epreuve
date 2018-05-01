@@ -23,9 +23,7 @@ foreach ($res as $ligne) {
 }
 echo "</table>";
 
-
-
-cho "<hr> ";
+echo "<hr> ";
 $res = $BDD->executer_requete_total_sms();
 echo "3BID.Retrouver la quantité totale de SMS envoyés par l'ensemble des abonnés TOTAL ??? \n: " . count($BDD->executer_requete_total_sms_total()) . "\n\n";
 $BDD->close_connection();
