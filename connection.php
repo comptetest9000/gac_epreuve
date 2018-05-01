@@ -186,7 +186,7 @@ HEREDOC;
         $requete = <<<HEREDOC
         SELECT  SUM(gac_table.Durée_volume_réel)
         FROM {$table}
-        WHERE HOUR(ng2.Heure) < 8 and HOUR(ng2.Heure) > 18
+        WHERE HOUR(gac_table.Heure) < 8 and HOUR(gac_table.Heure) > 18
         GROUP BY N_abonné
         ORDER BY gac_table.Durée_volume_réel DESC
         LIMIT 10;
