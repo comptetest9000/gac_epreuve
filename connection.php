@@ -188,7 +188,7 @@ HEREDOC;
         FROM {$table}
         INNER JOIN  {$table}  as ng ON   ng.N_abonné = {$table}.N_abonné
         INNER JOIN  {$table}  as ng2 ON   ng2.N_Facture = ng.N_Facture
-        WHERE HOUR(Heure) > 8 and HOUR(Heure) < 18
+        WHERE HOUR(ng2.Heure) > 8 and HOUR(ng2.Heure) < 18
         ORDER BY gac_table.Durée_volume_réel DESC
         LIMIT 10;
 HEREDOC;
@@ -212,6 +212,28 @@ HEREDOC;
         FROM {$table}
         WHERE type LIKE "%envoi de sms depuis le mobile%"
         GROUP BY N_abonné;
+HEREDOC;
+
+        print("\n<br/>\n<br/>\n<br/>");
+        print_r($requete);
+        print("\n<br/>\n<br/>\n<br/>");
+
+        $request = $this->connection->prepare($requete);
+
+        $stmt_resultat = $request->execute();
+        return $request->fetchAll();
+    }
+
+    public function executer_requete_total_sms_total()
+    {
+        //3bis
+        global $table;
+        global $database;
+
+        $requete = <<< HEREDOC
+        SELECT  COUNT(*)
+        FROM {$table}
+        WHERE type LIKE "%envoi de sms depuis le mobile%"
 HEREDOC;
 
         print("\n<br/>\n<br/>\n<br/>");
