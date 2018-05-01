@@ -198,7 +198,19 @@ HEREDOC;
         $request = $this->connection->prepare($requete);
 
         $stmt_resultat = $request->execute();
-        return $request->fetchAll()[0][0];
+        $liste = $request->fetchAll()[0];
+        $str_retour = "";
+        $i = 0;
+        foreach ($liste as $l) {
+            if ($i == 0) {
+                $str_retour = $str_retour . $l;
+            } else {
+                $str_retour = $str_retour . "-" . $l;
+            }
+            $i++;
+        }
+
+        return $str_retour;
     }
 
     public function executer_requete_total_sms()
