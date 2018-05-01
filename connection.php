@@ -186,8 +186,6 @@ HEREDOC;
         $requete = <<<HEREDOC
         SELECT  SUM(gac_table.Durée_volume_réel)
         FROM {$table}
-        INNER JOIN  {$table}  as ng ON   ng.N_abonné = {$table}.N_abonné
-        INNER JOIN  {$table}  as ng2 ON   ng2.N_Facture = ng.N_Facture
         WHERE HOUR(ng2.Heure) < 8 and HOUR(ng2.Heure) > 18
         GROUP BY N_abonné
         ORDER BY gac_table.Durée_volume_réel DESC
